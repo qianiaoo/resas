@@ -11,13 +11,15 @@ const CheckBoxList: FC<CheckBoxList> = ({ onCheckedChange }) => {
   const [prefectures, setPrefectures] = useState<Prefecture[]>([]);
 
   const handleOnChange = (prefCode: number) => {
+    let newArray;
     if (checkedPrefCodes.includes(prefCode)) {
-      const newArray = checkedPrefCodes.filter((i) => i !== prefCode);
+      newArray = checkedPrefCodes.filter((i) => i !== prefCode);
       setCheckedPrefCodes(newArray);
     } else {
-      setCheckedPrefCodes([...checkedPrefCodes, prefCode]);
+      newArray = [...checkedPrefCodes, prefCode];
+      setCheckedPrefCodes(newArray);
     }
-    onCheckedChange(checkedPrefCodes);
+    onCheckedChange(newArray);
   };
 
   useEffect(() => {
