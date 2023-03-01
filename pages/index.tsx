@@ -47,7 +47,6 @@ const Home: NextPage = () => {
           console.error("ERROR, Please Check API KEY", err);
         });
     }
-    console.log(populations);
   };
 
   useEffect(() => {
