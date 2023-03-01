@@ -15,6 +15,10 @@ a {
   box-sizing: border-box;
 }
 
+p,h3 {
+  margin: 0;
+}
+
 /* night mode */
 /*@media (prefers-color-scheme: dark) {*/
 /*  html {*/
