@@ -3,7 +3,7 @@ import { getPrefectures } from "@/hooks/usePrefectures";
 import styles from "@/styles/Home.module.css";
 import { Prefecture } from "@/types/home";
 type CheckBoxList = {
-  onCheckedChange: (checkedState: Prefecture[]) => void;
+  onCheckedChange: (pref: Prefecture) => void;
 };
 
 const CheckBoxList: FC<CheckBoxList> = ({ onCheckedChange }) => {
@@ -19,7 +19,10 @@ const CheckBoxList: FC<CheckBoxList> = ({ onCheckedChange }) => {
       newCodes = [...checkedPrefCodes, prefCode];
       setCheckedPrefCodes(newCodes);
     }
-    onCheckedChange(prefectures.filter((p) => newCodes.includes(p.prefCode)));
+    const findRes = prefectures.find((p) => p.prefCode === prefCode);
+    if (findRes) {
+      onCheckedChange(findRes);
+    }
   };
 
   useEffect(() => {
