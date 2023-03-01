@@ -1,20 +1,16 @@
-import { CheckBoxProps } from "@/types/home";
+import { Prefecture } from "@/types/home";
 
-export const DUMMY_STATE_DATA: CheckBoxProps[] = [
+export const DUMMY_STATE_DATA: Prefecture[] = [
   {
-    isChecked: true,
-    name: "広島",
+    prefCode: 1,
+    prefName: "北海道",
   },
   {
-    isChecked: true,
-    name: "島根",
+    prefCode: 2,
+    prefName: "青森県",
   },
   {
-    isChecked: true,
-    name: "長崎",
-  },
-  {
-    isChecked: true,
-    name: "東京",
+    prefCode: 3,
+    prefName: "岩手県",
   },
 ];

@@ -1,4 +1,4 @@
-export type CheckBoxProps = {
-  isChecked: boolean;
-  name: string;
+export type Prefecture = {
+  prefCode: number;
+  prefName: string;
 };
