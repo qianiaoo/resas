@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
+import ChartJsGraph from "@/components/ChartJsGraph";
 import CheckBoxList from "@/components/CheckBoxList";
 import Header from "@/components/Header";
 import { getPopulationByPrefCode } from "@/hooks/usePrefectures";
@@ -20,6 +21,9 @@ const Home: NextPage = () => {
   const [populations, setPopulations] = useState<PopulationData[]>([]);
   //実績値と推計値の区切り年
   const untilYear = 2020;
+
+  //グラフのラベル用
+  const [years, setYears] = useState<string[]>([]);
 
   // CheckBoxListのチェックされたCallback関数、ここで人口データを増減する。
   const onCheckedChanged = (pref: Prefecture) => {
@@ -46,11 +50,23 @@ const Home: NextPage = () => {
     console.log(populations);
   };
 
+  useEffect(() => {
+    //最初に取得した人口構造データから、年の推移ラベルを設定する。
+    if (populations.length && !years.length) {
+      setYears(populations[0].populations.map((p) => p.year.toString()));
+    }
+  }, [populations]);
+
   return (
     <div className={styles.container}>
       <Header />
       <CheckBoxList onCheckedChange={onCheckedChanged} />
-      <div>{populations.length}</div>
+      {populations.length ? (
+        <ChartJsGraph title={"都道府県人口推移"} dataset={populations} labels={years} />
+      ) : (
+        //  まだチェックしていないときの文言
+        <h4>上の都道府県を選択したらグラフが出てきます。</h4>
+      )}
     </div>
   );
 };
