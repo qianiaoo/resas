@@ -6,6 +6,13 @@ import Header from "@/components/Header";
 import { getPopulationByPrefCode } from "@/hooks/usePrefectures";
 import { Population, PopulationData, Prefecture } from "@/types/home";
 
+enum PopulationApiDataIndex {
+  allPopulation = 0, //総人口
+  YoungPopulation = 1, //年少人口
+  WorkingAgePopulation = 2, //生産年齢人口
+  ElderlyPopulation = 3, //老年人口
+}
+
 const Home: NextPage = () => {
   // 現在チェックされている都道府県のID list
   const [checkedPrefCodes, setCheckedPrefCodes] = useState<number[]>([]);
@@ -24,7 +31,7 @@ const Home: NextPage = () => {
       // 新しくチェックされた場合
       getPopulationByPrefCode(pref.prefCode)
         .then((res) => {
-          const apiPopulations: Population[] = res.result.data[0].data;
+          const apiPopulations: Population[] = res.result.data[PopulationApiDataIndex.allPopulation].data;
           const populationData = {
             prefName: pref.prefName,
             populations: apiPopulations.filter((a) => a.year <= untilYear),
