@@ -1,3 +1,4 @@
+/* Header */
 .headerBox {
   display: flex;
   justify-content: center;
@@ -7,7 +8,15 @@
   height: 3rem;
 }
 
-.headerText {
-  margin: 0;
+
+/* CheckBoxList */
+.checkBoxListBox {
+  padding: 1rem 0 0 1rem;
+  gap: 1rem;
 }
 
+.checkBoxList {
+  gap: 0.7rem;
+  display: flex;
+  flex-wrap: wrap;
+}

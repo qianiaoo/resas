@@ -1,60 +1,46 @@
 import type { NextPage } from "next";
-import Image from "next/image";
+import { useState } from "react";
 import styles from "../styles/Home.module.css";
+import CheckBoxList from "@/components/CheckBoxList";
 import Header from "@/components/Header";
+import { getPopulationByPrefCode } from "@/hooks/usePrefectures";
+import { Population, PopulationData, Prefecture } from "@/types/home";
 
 const Home: NextPage = () => {
+  // 現在チェックされている都道府県のID list
+  const [checkedPrefCodes, setCheckedPrefCodes] = useState<number[]>([]);
+  // グラフ表示用人口データリスト
+  const [populations, setPopulations] = useState<PopulationData[]>([]);
+
+  // CheckBoxListのチェックされたCallback関数、ここで人口データを増減する。
+  const onCheckedChanged = (pref: Prefecture) => {
+    //  check外す場合
+    if (checkedPrefCodes.includes(pref.prefCode)) {
+      setCheckedPrefCodes(checkedPrefCodes.filter((c) => c !== pref.prefCode));
+      setPopulations(populations.filter((p) => p.prefName !== pref.prefName));
+    } else {
+      // 新しくチェックされた場合
+      getPopulationByPrefCode(pref.prefCode)
+        .then((res) => {
+          const apiPopulations: Population[] = res.result.data[0].data;
+          const populationData = {
+            prefName: pref.prefName,
+            populations: apiPopulations,
+          };
+          setCheckedPrefCodes([...checkedPrefCodes, pref.prefCode]);
+          setPopulations([...populations, populationData]);
+        })
+        .catch((err) => {
+          console.error("ERROR, Please Check API KEY", err);
+        });
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Header />
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a href="https://github.com/vercel/next.js/tree/canary/examples" className={styles.card}>
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+      <CheckBoxList onCheckedChange={onCheckedChanged} />
+      <div>{populations.length}</div>
     </div>
   );
 };

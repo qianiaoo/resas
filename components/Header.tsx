@@ -12,7 +12,7 @@ const Header = () => {
       </Head>
 
       <div className={styles.headerBox}>
-        <h3 className={styles.headerText}>都道府県人口一覧</h3>
+        <h3>都道府県人口一覧</h3>
       </div>
     </>
   );
