@@ -11,6 +11,8 @@ const Home: NextPage = () => {
   const [checkedPrefCodes, setCheckedPrefCodes] = useState<number[]>([]);
   // グラフ表示用人口データリスト
   const [populations, setPopulations] = useState<PopulationData[]>([]);
+  //実績値と推計値の区切り年
+  const untilYear = 2020;
 
   // CheckBoxListのチェックされたCallback関数、ここで人口データを増減する。
   const onCheckedChanged = (pref: Prefecture) => {
@@ -25,7 +27,7 @@ const Home: NextPage = () => {
           const apiPopulations: Population[] = res.result.data[0].data;
           const populationData = {
             prefName: pref.prefName,
-            populations: apiPopulations,
+            populations: apiPopulations.filter((a) => a.year <= untilYear),
           };
           setCheckedPrefCodes([...checkedPrefCodes, pref.prefCode]);
           setPopulations([...populations, populationData]);
@@ -34,6 +36,7 @@ const Home: NextPage = () => {
           console.error("ERROR, Please Check API KEY", err);
         });
     }
+    console.log(populations);
   };
 
   return (
