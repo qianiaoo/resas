@@ -42,21 +42,22 @@ const CheckBoxList: FC<CheckBoxList> = ({ onCheckedChange }) => {
     <div className={styles.checkBoxListBox}>
       <p>都道府県</p>
       <div className={styles.checkBoxList}>
-        {prefectures.map(({ prefCode, prefName }) => {
-          return (
-            <div key={prefCode}>
-              <input
-                type="checkbox"
-                id={`checkbox-${prefCode}`}
-                name={prefName}
-                value={prefName}
-                checked={checkedPrefCodes.includes(prefCode)}
-                onChange={() => handleOnChange(prefCode)}
-              />
-              <label htmlFor={`checkbox-${prefCode}`}>{prefName}</label>
-            </div>
-          );
-        })}
+        {prefectures &&
+          prefectures.map(({ prefCode, prefName }) => {
+            return (
+              <div key={prefCode}>
+                <input
+                  type="checkbox"
+                  id={`checkbox-${prefCode}`}
+                  name={prefName}
+                  value={prefName}
+                  checked={checkedPrefCodes.includes(prefCode)}
+                  onChange={() => handleOnChange(prefCode)}
+                />
+                <label htmlFor={`checkbox-${prefCode}`}>{prefName}</label>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
