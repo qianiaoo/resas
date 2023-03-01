@@ -7,14 +7,19 @@ import { getPopulationByPrefCode } from "@/hooks/usePrefectures";
 import { Population, PopulationData, Prefecture } from "@/types/home";
 
 const Home: NextPage = () => {
+  // 現在チェックされている都道府県のID list
   const [checkedPrefCodes, setCheckedPrefCodes] = useState<number[]>([]);
+  // グラフ表示用人口データリスト
   const [populations, setPopulations] = useState<PopulationData[]>([]);
 
+  // CheckBoxListのチェックされたCallback関数、ここで人口データを増減する。
   const onCheckedChanged = (pref: Prefecture) => {
+    //  check外す場合
     if (checkedPrefCodes.includes(pref.prefCode)) {
       setCheckedPrefCodes(checkedPrefCodes.filter((c) => c !== pref.prefCode));
       setPopulations(populations.filter((p) => p.prefName !== pref.prefName));
     } else {
+      // 新しくチェックされた場合
       getPopulationByPrefCode(pref.prefCode)
         .then((res) => {
           const apiPopulations: Population[] = res.result.data[0].data;
@@ -24,7 +29,6 @@ const Home: NextPage = () => {
           };
           setCheckedPrefCodes([...checkedPrefCodes, pref.prefCode]);
           setPopulations([...populations, populationData]);
-          console.log(apiPopulations);
         })
         .catch((err) => {
           console.error("ERROR, Please Check API KEY", err);

@@ -7,9 +7,12 @@ type CheckBoxList = {
 };
 
 const CheckBoxList: FC<CheckBoxList> = ({ onCheckedChange }) => {
+  //　チェックの状態を保存するリスト
   const [checkedPrefCodes, setCheckedPrefCodes] = useState<number[]>([]);
+  // 都道府県一覧
   const [prefectures, setPrefectures] = useState<Prefecture[]>([]);
 
+  // checked変更されたらの処理関数
   const handleOnChange = (prefCode: number) => {
     let newCodes: number[];
     if (checkedPrefCodes.includes(prefCode)) {
@@ -25,6 +28,7 @@ const CheckBoxList: FC<CheckBoxList> = ({ onCheckedChange }) => {
     }
   };
 
+  // 都道府県一覧取得
   useEffect(() => {
     getPrefectures()
       .then((res) => {
