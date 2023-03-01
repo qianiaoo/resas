@@ -20,3 +20,13 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+
+/* index page graph */
+.graphBox {
+  text-align: center;
+  margin: auto;
+  width: 90vw;
+  height: fit-content;
+}
+

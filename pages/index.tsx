@@ -58,15 +58,17 @@ const Home: NextPage = () => {
   }, [populations]);
 
   return (
-    <div className={styles.container}>
+    <div>
       <Header />
       <CheckBoxList onCheckedChange={onCheckedChanged} />
-      {populations.length ? (
-        <ChartJsGraph title={"都道府県人口推移"} dataset={populations} labels={years} />
-      ) : (
-        //  まだチェックしていないときの文言
-        <h4>上の都道府県を選択したらグラフが出てきます。</h4>
-      )}
+      <div className={styles.graphBox}>
+        {populations.length ? (
+          <ChartJsGraph title={"都道府県人口推移"} dataset={populations} labels={years} />
+        ) : (
+          //  まだチェックしていないときの文言
+          <h4>上の都道府県を選択したらグラフが出てきます。</h4>
+        )}
+      </div>
     </div>
   );
 };
