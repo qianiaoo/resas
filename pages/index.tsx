@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import styles from "../styles/Home.module.css";
 import ChartJsGraph from "@/components/ChartJsGraph";
 import CheckBoxList from "@/components/CheckBoxList";
@@ -49,7 +49,7 @@ const Home: NextPage = () => {
     }
   };
 
-  useEffect(() => {
+  useMemo(() => {
     //最初に取得した人口構造データから、年の推移ラベルを設定する。
     if (populations.length && !years.length) {
       setYears(populations[0].populations.map((p) => p.year.toString()));
