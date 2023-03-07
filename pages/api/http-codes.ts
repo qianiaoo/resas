@@ -1,0 +1,4 @@
+export const HTTP_OK_CODE = 200;
+export const HTTP_UNAUTHORIZED_CODE = 401;
+export const HTTP_BAD_REQUEST_CODE = 400;
+export const HTTP_METHOD_NOT_ALLOWED_CODE = 405;

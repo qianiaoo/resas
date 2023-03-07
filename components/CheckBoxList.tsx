@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { getPrefectures } from "@/hooks/usePrefectures";
+import { fetchPrefecture } from "@/lib/apiClient";
 import styles from "@/styles/Home.module.css";
 import { Prefecture } from "@/types/home";
 type CheckBoxList = {
@@ -28,16 +28,14 @@ const CheckBoxList: FC<CheckBoxList> = ({ onCheckedChange }) => {
     }
   };
 
-  // 都道府県一覧取得
   useEffect(() => {
-    getPrefectures()
-      .then((res) => {
-        setPrefectures(res.result);
-      })
-      .catch((err) => {
-        console.error("ERROR, Please Check API KEY", err);
-      });
+    async function fetchData() {
+      const result = await fetchPrefecture();
+      setPrefectures(result.prefectures);
+    }
+    fetchData();
   }, []);
+
   return (
     <div className={styles.checkBoxListBox}>
       <p>都道府県</p>
